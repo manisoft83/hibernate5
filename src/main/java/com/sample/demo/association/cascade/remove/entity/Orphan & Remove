@@ -1,0 +1,12 @@
+@OneToMany(orphanRemoval = true, mappedBy = "stockPersist")
+
+orphanRemoval = true is required to remove only child record.
+orphanRemoval = true mentioned in Parent POJO entity.
+Here,in sample removing StockDailyRecordRemove record only by using  orphanRemoval = true.
+
+Without that Hibernate is not removing child record.
+Whole set of parent and child records are deleted if we use session.delete(stock);.
+
+Don't use CascadeType.ALL, CascadeType.REMOVE in  StockDailyRecordRemove POJO which will remove parent and all childs if we try to remove one child. CAREFULL with REMOVE.
+
+
