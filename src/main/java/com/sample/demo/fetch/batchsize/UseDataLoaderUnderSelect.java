@@ -1,7 +1,5 @@
 package com.sample.demo.fetch.batchsize;
 
-import javax.transaction.Transaction;
-
 import org.hibernate.Session;
 
 import com.sample.demo.util.HibernateUtil;

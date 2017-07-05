@@ -14,48 +14,65 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<hsqldb.version>2.3.2</hsqldb.version>
 		<dbh2.version>1.4.187</dbh2.version>
+		<hibernateVersion>5.1.7.Final</hibernateVersion>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-osgi</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-envers</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-c3p0</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-proxool</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-infinispan</artifactId>
-			<version>5.0.5.Final</version>
+			<version>${hibernateVersion}</version>
 		</dependency>
 		<dependency>
     <groupId>org.hibernate.javax.persistence</groupId>
     <artifactId>hibernate-jpa-2.0-api</artifactId>
     <version>1.0.1.Final</version>
+</dependency>
+<!-- Hibernate Validator -->
+<dependency>
+   <groupId>org.hibernate</groupId>
+   <artifactId>hibernate-validator-cdi</artifactId>
+   <version>5.4.1.Final</version>
+</dependency>
+<dependency>
+   <groupId>javax.el</groupId>
+   <artifactId>javax.el-api</artifactId>
+   <version>2.2.4</version>
+</dependency>
+<dependency>
+   <groupId>org.glassfish.web</groupId>
+   <artifactId>javax.el</artifactId>
+   <version>2.2.4</version>
 </dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -84,6 +101,33 @@
 			<version>5.1.15</version>
 		</dependency>
 
+		<!-- Hibernate EHCache API -->
+		<!-- <dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency> -->
+		
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-ehcache -->
+<dependency>
+ <groupId>org.hibernate</groupId>
+ <artifactId>hibernate-ehcache</artifactId>
+ <version>4.3.8.Final</version>
+ 
+</dependency>
+<dependency>
+ <groupId>net.sf.ehcache</groupId>
+ <artifactId>ehcache-core</artifactId>
+ <version>2.6.10</version>
+</dependency>
+		
+		<!-- EHCache uses slf4j for logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		
 <!-- https://mvnrepository.com/artifact/com.enigmabridge/hibernate4-sqlite-dialect -->
 <dependency>
     <groupId>com.enigmabridge</groupId>
@@ -102,7 +146,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

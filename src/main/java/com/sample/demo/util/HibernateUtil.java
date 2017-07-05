@@ -62,6 +62,16 @@ public class HibernateUtil
             configuration.addAnnotatedClass(com.sample.demo.query.criteria.projection.Avenger.class);
             configuration.addAnnotatedClass(com.sample.demo.query.criteria.projection.Villain.class);
             
+            
+            configuration.addAnnotatedClass(com.sample.demo.transaction.lock.pessimistic.Person.class);
+            configuration.addAnnotatedClass(com.sample.demo.transaction.lock.pessimistic.Address.class);
+            
+            configuration.addAnnotatedClass(com.sample.demo.transaction.lock.optimistic.Person.class);
+            configuration.addAnnotatedClass(com.sample.demo.transaction.lock.optimistic.Address.class);
+            
+            configuration.addAnnotatedClass(com.sample.demo.cache.Employee.class);
+            configuration.addAnnotatedClass(com.sample.demo.cache.Address.class);
+            
             StandardServiceRegistryBuilder serviceRegistryBuilder = new StandardServiceRegistryBuilder();
             serviceRegistryBuilder.applySettings(configuration.getProperties());
             ServiceRegistry serviceRegistry = serviceRegistryBuilder.build();

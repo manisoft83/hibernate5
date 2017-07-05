@@ -13,12 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 @Entity
 @Table(name="PERSON_FETCH",
         schema="SYSTEM")
+
 public class Person implements Serializable {
  
     private static final long serialVersionUID = 4333499410830154895L;

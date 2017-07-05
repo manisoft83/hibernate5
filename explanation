@@ -11,6 +11,10 @@ Association
 	One to Many
 	Join Table
 
+Dirty Read
+Phantom Read
+Unrepeatable read
+
 Fetching strategies
 	Run dataloader under com.sample.demo.fetch.select.DataLoader.java to load data before running each Data*Fetch.java
 		
@@ -147,3 +151,43 @@ Here are the things I consider when deciding between Criteria and HQL/JPAQL:
   		with exception throw, only update and ‘cascade delete all’ are allow.
   		
   		
+Lost Updates – one transaction (T1) updates the data and commits successfully where as the second transaction (T2) fails to commit. In this case updates done by transaction (T1) are lost. This can be the situation when concurrent transactions are not isolated.
+Dirty Read (Read Uncommitted Data) -  One transaction (T1) reads the uncommitted data (updates are done, but not committed) by another transaction (T2).
+Phantom Read-  Transaction (T1) executes same query twice and the result sets is different each time, probably because another transaction (T2) has either added or deleted the records.
+Unrepeatable Read- Transaction (T1) reads the same row twice and state of row is different probably because another transaction (T2) updates the row. Special case would be if T1 updates and committed the same data again, then updates done by T2 will be lost.
+
+JTA Transaction Isolation Levels
+
+Read Uncommitted- One transaction can view uncommitted data of another transaction and dirty read, phantom read, unrepeatable reads are allowed. This is the loosest isolation level and is not recommended. 
+Read Committed – Dirty Reads (Uncommitted Read) are not allowed in this isolation level, but unrepeatable reads and phantom reads are permitted. This approach uses shared read lock and exclusive write lock in which read lock is acquired and released immediately where as write lock is released at the end of the transaction.
+Repeatable Read-  Dirty Read and Unrepeatable Read is not allowed in this isolation level but phantom reads are allowed. In this isolation level, reading transaction will block all other writing transactions ( but allows other reading transactions ) and any writing transaction will block all other transactions. This will have some scalability issues.
+Serializable- This is the strictest isolation level and will have  scalability issues. This prevents dirty read, phantom reads , unrepeatable read etc. Transactions are executed serially (one after another) and acquires read and write locks on the entire set of affected data.
+
+Isolation Level		Phantom Read	Unrepeatable Read		Dirty Read
+Read Uncommitted	Allowed			Allowed					Allowed
+Read Committed		Allowed			Allowed					Not Allowed
+Repeatable Read		Allowed			Not Allowed				Not Allowed
+Serializable		Not allowed		Not allowed				Not allowed
+
+ 
+EHCache - Pitfall
+
+Pitfall 1 - Query cache worsens performance causing a high volume of queries
+There is an harmful side-effect of how the two caches work, that occurs if the cached query results are configured to expire more frequently than the cached entities returned by the query.
+
+If a query has cached results, it returns a list of entity Id's, that is then resolved against the second level cache. If the entities with those Ids where not configured as cacheable or if they have expired, then a select will hit the database per entity Id.
+
+For example if a cached query returned 1000 entity Ids, and non of those entities where cached in the second level cache, then 1000 selects by Id will be issued against the database.
+
+The solution to this problem is to configure query results expiration to be aligned with the expiration of the entities returned by the query.
+
+Pitfall 2 - Cache limitations when used in conjunction with @Inheritance
+It is currently not possible to specify different caching policies for different subclasses of the same parent entity.
+
+Pitfall 3 - Cache settings get ignored when using a singleton based cache
+It is advised to configure the cache region factory as a EhCacheRegionFactory, and specify an ehcache configuration via net.sf.ehcache.configurationResourceName.
+
+There is an alternative to this region factory which is SingletonEhCacheRegionFactory. With this region factory the cache regions are stored in a singleton using the cache name as a lookup key.
+
+The problem with the singleton region factory is that if another part of the application had already registered a cache with the default name in the singleton, this causes the ehcache configuration file passed via net.sf.ehcache.configurationResourceName to be ignored.
+

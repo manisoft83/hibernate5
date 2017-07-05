@@ -11,7 +11,7 @@ public class DataSelectFetch {
 		  Session session = HibernateUtil.getSessionFactory().openSession();
 	      
 	         
-		  List<Person> l = session.createQuery(" FROM Person p ").list();
+		  List<Person> l = session.createQuery(" FROM com.sample.demo.fetch.select.Person p ").list();
 	         
 	        System.out.println("Retrieving Data");
 	        System.out.println("Data retrieved: " + l.size());
